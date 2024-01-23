@@ -1,23 +1,18 @@
 import { Injectable } from '@nestjs/common';
-
-export type User = { id: number; username: string; password: string };
+import { UserRepository } from './gateways/database/implementations/user.repository';
+import { User } from './gateways/database/implementations/user.entity';
 
 @Injectable()
 export class UserService {
-  private readonly users = [
-    {
-      id: 1,
-      username: 'john',
-      password: 'changeme',
-    },
-    {
-      id: 2,
-      username: 'maria',
-      password: 'guess',
-    },
-  ];
+  constructor(private userRepository: UserRepository) {}
 
   async findOne(username: string): Promise<User | undefined> {
-    return this.users.find((user) => user.username === username);
+    const result = await this.userRepository.findOne({ username });
+    return result;
+  }
+
+  async saveOne(payload: Partial<User>): Promise<User> {
+    const result = await this.userRepository.saveOne(payload);
+    return result;
   }
 }
