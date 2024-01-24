@@ -9,5 +9,6 @@ import { CategoryRepository } from './gateways/database/implementations/category
   imports: [TypeOrmModule.forFeature([Category])],
   providers: [CategoryService, CategoryRepository],
   controllers: [CategoryController],
+  exports: [CategoryService],
 })
 export class CategoryModule {}

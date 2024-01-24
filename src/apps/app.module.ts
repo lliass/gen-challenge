@@ -7,6 +7,8 @@ import { PostgresDBModule } from '../infra/persistence/postgres/postgres-db.modu
 import { User } from './user/gateways/database/implementations/user.entity';
 import { CategoryModule } from './category/category.module';
 import { Category } from './category/gateways/database/implementations/category.entity';
+import { ProductModule } from './product/product.module';
+import { Product } from './product/gateways/databases/implementations/product.entity';
 
 const relativeRootDir = `${__dirname}/../..`;
 
@@ -17,10 +19,11 @@ const relativeRootDir = `${__dirname}/../..`;
       envFilePath: `${relativeRootDir}/.env`,
     }),
 
-    PostgresDBModule.setup([User, Category]),
+    PostgresDBModule.setup([User, Category, Product]),
 
     AuthModule,
     CategoryModule,
+    ProductModule,
   ],
   controllers: [AppController],
   providers: [AppService],

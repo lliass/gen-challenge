@@ -99,4 +99,14 @@ export class CategoryService {
 
     await this.categoryRepository.deleteOne(id);
   }
+
+  async findOneByName(name: string): Promise<ReadCategoryResponseDTO> {
+    const categoryFound = await this.categoryRepository.findOne({ name });
+
+    if (!categoryFound) {
+      throw new NotFoundException('Category not found');
+    }
+
+    return categoryFound;
+  }
 }
