@@ -1,10 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
-
-type ValidateEncryptedPasswordParameters = {
-  forwardedPassword: string;
-  encryptedPassword: string;
-};
+import { ValidateEncryptedPasswordParameters } from './assets/types/param.type';
 
 @Injectable()
 export class EncryptionService {

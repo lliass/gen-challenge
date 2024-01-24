@@ -6,6 +6,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { JwtGuard } from './guards/jwt.guard';
 import { APP_GUARD } from '@nestjs/core';
 import { EncryptionModule } from '../../infra/encryption/encryption.module';
+import { JWT_EXPIRE_TIME } from './assets/enums/jwt-expire-time.enum';
 
 @Module({
   imports: [
@@ -14,7 +15,7 @@ import { EncryptionModule } from '../../infra/encryption/encryption.module';
       useFactory: () => ({
         global: true,
         secret: process.env.JWT_TOKEN,
-        signOptions: { expiresIn: '12h' },
+        signOptions: { expiresIn: JWT_EXPIRE_TIME.TWELVE_HOURS },
       }),
     }),
     EncryptionModule,

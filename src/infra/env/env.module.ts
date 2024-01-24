@@ -1,11 +1,10 @@
 import { DynamicModule, Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-
-type IEnvModuleOptions = Parameters<typeof ConfigModule.forRoot>[0];
+import { EnvModuleOptions } from './assets/types/config.type';
 
 @Module({})
 export class EnvModule {
-  static setup(options: IEnvModuleOptions): DynamicModule {
+  static setup(options: EnvModuleOptions): DynamicModule {
     return {
       module: EnvModule,
       imports: [

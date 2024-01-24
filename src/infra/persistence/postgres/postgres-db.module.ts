@@ -2,14 +2,13 @@ import { DynamicModule, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import * as _ from 'lodash';
-
-type IClassConstructor = new (...args: any[]) => unknown;
+import { ClassConstructor } from './assets/types/config.type';
 
 @Module({})
 export class PostgresDBModule {
-  static registeredEntities: IClassConstructor[] = [];
+  static registeredEntities: ClassConstructor[] = [];
 
-  static setup(entities: IClassConstructor[]): DynamicModule {
+  static setup(entities: ClassConstructor[]): DynamicModule {
     const updatedUniqueEntities = _.uniqWith([
       ...this.registeredEntities,
       ...entities,
