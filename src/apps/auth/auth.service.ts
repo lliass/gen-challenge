@@ -1,7 +1,7 @@
 import {
   Injectable,
-  UnauthorizedException,
   BadRequestException,
+  NotFoundException,
 } from '@nestjs/common';
 import { UserService } from '../user/user.service';
 import { JwtService } from '@nestjs/jwt';
@@ -11,12 +11,14 @@ import {
   AuthRegisterRequestDTO,
   AuthRegisterResponseDTO,
 } from './auth.dto';
+import { EncryptionService } from '../../infra/encryption/encryption.service';
 
 @Injectable()
 export class AuthService {
   constructor(
     private userService: UserService,
     private jwtService: JwtService,
+    private encryptionService: EncryptionService,
   ) {}
 
   async signIn(params: AuthLoginRequestDTO): Promise<AuthLoginResponseDTO> {
@@ -24,8 +26,17 @@ export class AuthService {
 
     const user = await this.userService.findOne(username);
 
-    if (user?.password !== password) {
-      throw new UnauthorizedException();
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+    const validatedPassword =
+      await this.encryptionService.validateEncryptedPassword({
+        forwardedPassword: password,
+        encryptedPassword: user.password,
+      });
+
+    if (!validatedPassword) {
+      throw new BadRequestException('Credentials are incorrect');
     }
 
     const payload = { sub: user.id, username: user.username };
@@ -46,7 +57,14 @@ export class AuthService {
       throw new BadRequestException('User already exist');
     }
 
-    const newUser = await this.userService.saveOne({ username, password });
+    const encryptedPassword = await this.encryptionService.encryptPassword(
+      password,
+    );
+
+    const newUser = await this.userService.saveOne({
+      username,
+      password: encryptedPassword,
+    });
 
     return { username: newUser.username };
   }
