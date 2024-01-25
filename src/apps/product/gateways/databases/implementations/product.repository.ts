@@ -18,7 +18,7 @@ export class ProductRepository implements IProductRepository {
   }
 
   async find(): Promise<Product[]> {
-    const result = await this.repository.find();
+    const result = await this.repository.find({ relations: ['category'] });
 
     return result;
   }
@@ -26,6 +26,7 @@ export class ProductRepository implements IProductRepository {
   async findOne(payload: Partial<Product>): Promise<Product> {
     const result = await this.repository.findOne({
       where: { ...payload },
+      relations: ['category'],
     });
 
     return result;

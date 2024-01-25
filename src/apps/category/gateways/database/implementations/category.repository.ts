@@ -26,6 +26,7 @@ export class CategoryRepository implements ICategoryRepository {
   async findOne(payload: Partial<Category>): Promise<Category> {
     const result = await this.repository.findOne({
       where: { ...payload },
+      relations: ['products'],
     });
 
     return result;

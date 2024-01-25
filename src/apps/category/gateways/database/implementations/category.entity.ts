@@ -1,5 +1,6 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 import { ICategory } from '../Icategory.entity';
+import { Product } from '../../../../product/gateways/databases/implementations/product.entity';
 
 @Entity({ name: 'category' })
 export class Category implements ICategory {
@@ -11,4 +12,7 @@ export class Category implements ICategory {
 
   @Column()
   percentage: number;
+
+  @OneToMany(() => Product, (product) => product.category)
+  products?: Product[];
 }

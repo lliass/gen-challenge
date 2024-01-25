@@ -97,6 +97,14 @@ export class CategoryService {
       throw new NotFoundException('Category not found');
     }
 
+    const productsRelated = categoryFound.products;
+
+    if (!!productsRelated && productsRelated.length > 0) {
+      throw new BadRequestException(
+        'If the category is related to a product, it cannot be excluded',
+      );
+    }
+
     await this.categoryRepository.deleteOne(id);
   }
 
