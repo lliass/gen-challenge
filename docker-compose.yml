@@ -1,0 +1,35 @@
+version: '3'
+
+services:
+  application:
+    build:
+      context: .
+      dockerfile: dockerfile.app.dev
+    environment:
+      JWT_TOKEN: b4a2770aa2558b03004a3117b844ebb22bfbe123c62534762dccb71b6c3c3052
+      POSTGRES_DB_HOST: database
+      POSTGRES_DB_PORT: 5432
+      POSTGRES_DB_USER: username
+      POSTGRES_DB_PASS: password
+      POSTGRES_DB_NAME: gen-challenge
+      PORT: 3000
+    ports:
+      - '3000:3000'
+    depends_on:
+      - database
+
+  database:
+    build:
+      context: .
+      dockerfile: dockerfile.db.dev
+    environment:
+      POSTGRES_USER: username
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: gen-challenge
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:

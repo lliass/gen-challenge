@@ -1,0 +1,21 @@
+FROM node:14
+
+WORKDIR /usr/src/app
+
+COPY package*.json ./
+
+RUN npm install -g typescript
+
+RUN npm install -D @types/node
+
+RUN npm i -g @nestjs/cli
+
+RUN npm link webpack
+
+RUN npm install
+
+COPY . .
+
+EXPOSE 3000-3000
+
+CMD ["npm", "start"]
