@@ -21,6 +21,12 @@ const CATEGORY_MOCK: ICategory[] = [
       },
     ],
   },
+  {
+    id: 2,
+    name: 'Home',
+    percentage: 2,
+    products: [],
+  },
 ];
 
 export class MockCategoryRepository implements ICategoryRepository {
@@ -31,7 +37,7 @@ export class MockCategoryRepository implements ICategoryRepository {
       id: newId,
       name: payload.name,
       percentage: payload.percentage,
-      products: [],
+      products: payload.products,
     });
 
     const categoryInserted = CATEGORY_MOCK[CATEGORY_MOCK.length - 1];
