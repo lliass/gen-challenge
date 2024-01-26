@@ -171,7 +171,7 @@ describe('ProductService', () => {
     expect(installmentsSimulated.totalInstallments).toEqual(3);
   });
 
-  it('should not simulate an Installments, ', async () => {
+  it('should not simulate an Installments, because any Product with the requested id could be found', async () => {
     const simulateId = 100;
     const totalInstallments = 3;
 
