@@ -3,7 +3,7 @@ CREATE TABLE userlogin (
     id SERIAL PRIMARY KEY,
     username VARCHAR(255) NOT NULL,
     password VARCHAR(255) NOT NULL
-);
+)
 
 -- User Login Dump Dev
 INSERT INTO userlogin (username, password) VALUES
